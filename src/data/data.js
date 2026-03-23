@@ -1,0 +1,266 @@
+const data = {
+  personal: {
+    name: "Debendra Prasad Sahoo",
+    title: "MBA (Data Science & AI) — IIT Mandi",
+    tagline: "Physics → Robotics → MBA | Building Systems That Scale",
+    narrativeTagline: "From Physics to Robotics to Business — A Systems Thinker's Journey",
+    email: "mb25049@students.iitmandi.ac.in",
+    linkedin: "https://www.linkedin.com/in/truedebendra",
+    github: "https://github.com/DBHPS/arm_isro",
+    resumeLink: "/assets/FULL_DEBENDRA_CV_MB25049.pdf",
+    resumeDriveLink: process.env.NEXT_PUBLIC_RESUME_LINK || "https://drive.google.com/file/d/YOUR-DUMMY-LINK-HERE/view",
+    profileImage: "/assets/debendra_profile.jpg",
+    instituteLogo: "/assets/iitmandi_logo.jpg",
+    domain: "debendra.in",
+  },
+
+  education: [
+    {
+      id: "iit-mandi",
+      institution: "Indian Institute of Technology, Mandi",
+      degree: "MBA (Data Science & AI)",
+      grade: "CGPA: 7.7/10",
+      period: "2025 – Present",
+      logo: "/assets/iitmandi_logo.jpg",
+    },
+    {
+      id: "outr",
+      institution: "Odisha University of Technology and Research",
+      degree: "B.Sc. Physics",
+      grade: "CGPA: 7.56/10",
+      period: "2022 – 2025",
+    },
+    {
+      id: "cbse",
+      institution: "CBSE Board",
+      degree: "10th: 91.6% | 12th: 91.8%",
+      grade: "",
+      period: "",
+    },
+  ],
+
+  experience: [
+    {
+      id: "iit-delhi",
+      role: "Artificial Intelligence Intern",
+      organization: "DST CoE in Climate Modelling, IIT Delhi",
+      period: "May 2024 – Jan 2025",
+      location: "New Delhi, India",
+      link: "https://drive.google.com/file/d/1bpTiZXQYbmoGJVTpiwYfYfZO0fHhXWiB/view?usp=sharing",
+      impact: "~18% improvement over baselines in climate prediction",
+      highlights: [
+        "Implemented regression-based ensemble model for climate prediction, achieving ~18% improvement over baselines.",
+        "Managed data preprocessing, feature engineering, and developed HPC pipelines; optimized for large datasets.",
+        "Lead author on research paper on AI in climate science (in progress).",
+        "Supported technical content and organization for Climate Change Conclave at IIT Delhi.",
+      ],
+      tags: ["Python", "PyTorch", "HPC", "Ensemble Models", "Climate Science"],
+      category: "data-science",
+    },
+    {
+      id: "sakrobotix",
+      role: "AI / ROS Intern",
+      organization: "SakRobotix Lab Pvt. Ltd.",
+      period: "Jan 2024 – Feb 2024",
+      location: "Bhubaneswar, Odisha",
+      link: "https://drive.google.com/file/d/1RGDoE2t_6uqB1UQb3uOpUmIwCb4waJb6/view?usp=sharing",
+      impact: "Improved wake-word detection via CNN Mel-spectrogram matching",
+      highlights: [
+        "Designed CNNs for Mel-spectrogram matching to improve wake-word detection.",
+        "Benchmarked multiple pretrained audio models for voice recognition.",
+        "Worked on lightweight model deployments for edge inference.",
+      ],
+      tags: ["ROS", "CNN", "Edge AI", "Audio ML", "Python"],
+      category: "autonomous-systems",
+    },
+  ],
+
+  leadership: [
+    {
+      id: "deimos",
+      role: "Management & Corporate Relations Lead",
+      organization: "Team Deimos (Mars Rover) — IIT Mandi",
+      period: "2025 – Present",
+      location: "Mandi, Himachal Pradesh",
+      subtitle: "Technical Program Management & Strategic Partnerships",
+      impact: "Securing strategic partnerships with global brands like Creality, WOL3D",
+      highlights: [
+        "Managed cross-functional engineering timelines via WBS and Gantt charts; optimized workflows across GitHub and Notion.",
+        "Spearheaded corporate outreach securing partnerships with Creality, WOL3D, and multiple others in pipeline.",
+        "Managed financial planning and master budget tables for international University Rover Challenge (URC) submission.",
+      ],
+      tags: ["TPM", "Strategic Partnerships", "Budget Planning", "Notion", "GitHub"],
+    },
+    {
+      id: "aerospace-club",
+      role: "Technical Lead — Aerospace Club, OUTR",
+      organization: "OUTR Aerospace Club",
+      period: "2024 – 2025",
+      location: "Bhubaneswar, Odisha",
+      subtitle: "Large Scale Cross-Functional Team Management",
+      impact: "Increased membership by 200%+ through cross-functional recruitment",
+      highlights: [
+        "Led drone and RC plane projects; increased membership by 200%+ and coordinated cross-functional recruitment.",
+        "Revived astronomy wing; organized sky-observation events; led autonomy and real-time data-analysis robotics initiatives.",
+      ],
+      tags: ["Drones", "Team Leadership", "Recruitment", "Robotics"],
+    },
+    {
+      id: "robotics-lead",
+      role: "Project Lead — Robotics & Autonomous Systems Initiative",
+      organization: "OUTR Robotics Initiative",
+      period: "2022 – 2024",
+      location: "Bhubaneswar, Odisha",
+      subtitle: "End-to-End Product & Business Development",
+      impact: "Generated ₹4L revenue + ₹3L university funding + ₹5L incubation grant",
+      highlights: [
+        "Directed product lifecycle for autonomous drones and 3D-printed components, securing INR 3,00,000 in university funding for ISRO IRoC-U.",
+        "Delivered solutions to research clients generating INR 4,00,000 in cash revenue.",
+        "Scaled project to qualify for ₹5L institutional incubation grant by demonstrating operational efficiency and market viability.",
+      ],
+      tags: ["Product Lifecycle", "Revenue Generation", "3D Printing", "Drones"],
+    },
+  ],
+
+  competitions: [
+    {
+      id: "isro",
+      name: "ISRO Rover Challenge (IRoC-U 2024)",
+      result: "Top 50 out of 1400+ teams",
+      description: "Built autonomous rover using ROS2 + MoveIt2 for ISRO's national rover challenge.",
+      tags: ["ROS2", "MoveIt2", "Autonomous Systems", "C++"],
+      category: "autonomous-systems",
+      media: "https://www.youtube.com/embed/uZn7K_7etnw?si=vYXGuzfJHRQN5U6T",
+      mediaType: "youtube",
+    },
+    {
+      id: "eyantra",
+      name: "e-Yantra IIT Bombay 2023–24",
+      result: "Reached pre-final hardware stage",
+      description: "Developed ROS2 hologlyph bots for IIT Bombay's national robotics competition.",
+      tags: ["ROS2", "Computer Vision", "Embedded Systems"],
+      category: "autonomous-systems",
+    },
+    {
+      id: "flipkart",
+      name: "Flipkart Grid 5.0",
+      result: "National-level participation",
+      description: "Engineered ROS + YOLO vision stack for robotic arm payload handling.",
+      tags: ["ROS", "YOLO", "Computer Vision", "Robotic Arm"],
+      category: "autonomous-systems",
+    },
+  ],
+
+  projects: [
+    {
+      id: "fintech",
+      name: "FinTech Risk Modeling",
+      impact: "Mitigate default risks and optimize data-driven lending decisions",
+      description: "Engineered a predictive credit risk evaluation model for a Japanese small finance bank to mitigate default risks and optimize data-driven lending decisions.",
+      tags: ["Scikit-learn", "Pandas", "Financial Analytics", "Python"],
+      category: "data-science",
+    },
+    {
+      id: "content-ai",
+      name: "Automated Content Creation AI Agent",
+      impact: "Fully automate multimedia content generation at scale",
+      description: "Architected a multi-agent system deployed on Azure (OpenAI/DALL-E) to fully automate and scale multimedia content generation for LinkedIn and Twitter.",
+      tags: ["Azure", "OpenAI", "DALL-E", "Multi-Agent Systems"],
+      category: "data-science",
+    },
+    {
+      id: "agritech",
+      name: "Agri-Tech Predictive Analytics",
+      impact: "Forecast crop water requirements and optimize resource allocation",
+      description: "Developed a machine learning model (RandomForest) for the Smart India Hackathon to forecast crop water requirements and optimize resource allocation.",
+      tags: ["RandomForest", "ML", "Agriculture", "Python"],
+      category: "data-science",
+    },
+    {
+      id: "genai-healthcare",
+      name: "Applied GenAI in Healthcare",
+      impact: "Improve targeted information retrieval in medical applications",
+      description: "Fine-tuned LLaMA 2 architectures for domain-specific medical applications to improve targeted information retrieval.",
+      tags: ["LLaMA 2", "Fine-tuning", "NLP", "Healthcare"],
+      category: "data-science",
+    },
+    {
+      id: "uav-vision",
+      name: "Autonomous UAV Vision Systems",
+      impact: "Real-time computer vision for live-feed monitoring",
+      description: "Directed the build and testing of multiple drone platforms, integrating real-time computer vision (object detection) for live-feed monitoring.",
+      tags: ["OpenCV", "Object Detection", "Drones", "Python"],
+      category: "autonomous-systems",
+    },
+    {
+      id: "rl-optimization",
+      name: "Algorithmic Optimization",
+      impact: "Complex decision-making in simulated environments",
+      description: "Implemented reinforcement learning models utilizing OpenAI Gymnasium for complex decision-making environments.",
+      tags: ["Reinforcement Learning", "OpenAI Gym", "Python"],
+      category: "data-science",
+    },
+  ],
+
+  workshops: [
+    {
+      id: "skill-plus",
+      role: "Mentor — Skill++ 2024",
+      organization: "Zairza Technical Club, OUTR",
+      period: "2024",
+      highlights: [
+        "Mentored 12 students on robotics fundamentals with ROS; guided TurtleBot simulation projects.",
+        "Delivered sessions on robot perception with curated learning resources.",
+      ],
+    },
+  ],
+
+  awards: [
+    "Best Delegate at NITR IMUN 2023 (Represented EU at G20 Summit) — 1st prize.",
+    "Top ranks in robotics challenges (IRoC-U 47/1400 teams, Round 2 Stage 6 e-Yantra).",
+    "6-year member of SCAAA: promoted astronomy awareness and managed telescopes for public outreach.",
+  ],
+
+  skills: {
+    languages: ["Python", "SQL", "C++", "C"],
+    frameworks: ["Scikit-learn", "Pandas", "NumPy", "TensorFlow", "PyTorch", "OpenCV"],
+    tools: ["Git", "ROS", "GCP", "Power BI", "n8n", "Notion", "Excel", "APIs"],
+    domains: [
+      "Machine Learning",
+      "NLP",
+      "Computer Vision",
+      "High-Performance Computing",
+      "Business Analytics",
+      "Finance",
+    ],
+    professional: [
+      "Cross-functional Leadership",
+      "Strategic Partnerships",
+      "Research Writing",
+      "Product/Project Management",
+    ],
+  },
+
+  // For the narrative timeline — chronological order
+  timeline: [
+    { year: "2019", label: "SCAAA Astronomy — 6-year journey in astronomy outreach begins" },
+    { year: "2022", label: "B.Sc. Physics @ OUTR — Foundations in classical & quantum mechanics" },
+    { year: "2023", label: "Robotics Lead @ OUTR — Drones, ROS2, securing ₹3L funding" },
+    { year: "2023", label: "e-Yantra IIT Bombay — ROS2 hologlyph bots, pre-final stage" },
+    { year: "2023", label: "Flipkart Grid 5.0 — ROS + YOLO vision stack" },
+    { year: "2024", label: "ISRO IRoC-U — Top 50/1400, autonomous rover with MoveIt2" },
+    { year: "2024", label: "AI Intern @ IIT Delhi — Climate modelling, HPC pipelines, 18% boost" },
+    { year: "2024", label: "AI/ROS Intern @ SakRobotix — Edge AI, wake-word detection" },
+    { year: "2024", label: "Technical Lead, Aerospace Club — 200%+ membership growth" },
+    { year: "2024", label: "Best Delegate @ NITR IMUN — EU representative at G20 Summit" },
+    { year: "2025", label: "MBA (DS & AI) @ IIT Mandi — Bridging engineering & business strategy" },
+    { year: "2025", label: "Team Deimos, IIT Mandi — Corporate Relations Lead, Mars Rover" },
+  ],
+
+  media: {
+    linkedinVideo: "https://www.youtube.com/embed/uZn7K_7etnw?si=vYXGuzfJHRQN5U6T",
+    isroVideo: "https://www.youtube.com/embed/uZn7K_7etnw?si=vYXGuzfJHRQN5U6T",
+  },
+};
+
+export default data;
