@@ -1,10 +1,10 @@
 # Portfolio Configuration
 
-> **Update Your Resume**: Change the URL in parentheses below to update the Resume button everywhere on your site. Note: if the dev server is running, you must restart it after updating this link.
-
-
-
+> **Update Your Resume**: Change the URL in parentheses below to update the Resume button everywhere on your site. Note: if the dev server is running, you must restart it to see changes.
 > [Resume Link](https://drive.google.com/file/d/1FhBq5LscSOZKzrSUyeXKDfVREYRe2Ysn/view?usp=sharing)
+
+> **Update Your Page Title**: Change the text below to update the browser tab title and SEO title.
+> **Site Title:** Debendra Prasad Sahoo | IIT MD 27 | Data Science & AI
 
 ---
 

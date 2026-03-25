@@ -7,33 +7,53 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
-export const metadata = {
-  title: `${data.personal.name} — Portfolio`,
-  description: `${data.personal.name} | ${data.personal.title}. ${data.personal.tagline}. AI, Robotics, Data Science, and Product Management.`,
-  keywords: [
-    "Debendra Prasad Sahoo",
-    "IIT Mandi",
-    "MBA Data Science",
-    "AI",
-    "Robotics",
-    "ROS2",
-    "Product Management",
-    "Portfolio",
-  ],
-  openGraph: {
-    title: `${data.personal.name} — Portfolio`,
-    description: data.personal.tagline,
-    url: `https://${data.personal.domain}`,
-    siteName: data.personal.name,
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: `${data.personal.name} — Portfolio`,
-    description: data.personal.tagline,
-  },
-  metadataBase: new URL(`https://${data.personal.domain}`),
-};
+import fs from 'fs';
+import path from 'path';
+
+export async function generateMetadata() {
+  let siteTitle = `${data.personal.name} — Portfolio`;
+
+  try {
+    const readmePath = path.join(process.cwd(), 'README.md');
+    const readme = fs.readFileSync(readmePath, 'utf8');
+    
+    // Look for the Site Title config in README
+    const titleMatch = readme.match(/> \*\*Site Title:\*\* (.*)/);
+    if (titleMatch && titleMatch[1]) {
+      siteTitle = titleMatch[1].trim();
+    }
+  } catch (error) {
+    console.error("Error reading README for Site Title:", error);
+  }
+
+  return {
+    title: siteTitle,
+    description: `${data.personal.name} | ${data.personal.title}. ${data.personal.tagline}. AI, Robotics, Data Science, and Product Management.`,
+    keywords: [
+      "Debendra Prasad Sahoo",
+      "IIT Mandi",
+      "MBA Data Science",
+      "AI",
+      "Robotics",
+      "ROS2",
+      "Product Management",
+      "Portfolio",
+    ],
+    openGraph: {
+      title: siteTitle,
+      description: data.personal.tagline,
+      url: `https://${data.personal.domain}`,
+      siteName: data.personal.name,
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: siteTitle,
+      description: data.personal.tagline,
+    },
+    metadataBase: new URL(`https://${data.personal.domain}`),
+  };
+}
 
 export default function RootLayout({ children }) {
   return (
