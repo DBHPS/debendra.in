@@ -71,7 +71,7 @@ export default function NetworkWireframe() {
         camera={{ position: [0, 0, 8], fov: 50 }}
         dpr={[1, 1.5]}
         gl={{ antialias: true, alpha: true }}
-        style={{ background: "transparent" }}
+        style={{ background: "transparent", pointerEvents: "none" }}
       >
         <NetworkNodes />
       </Canvas>

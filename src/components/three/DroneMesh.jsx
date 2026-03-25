@@ -118,7 +118,7 @@ export default function DroneMesh() {
         camera={{ position: [0, 0, 7], fov: 40 }}
         dpr={[1, 1.5]}
         gl={{ antialias: true, alpha: true }}
-        style={{ background: "transparent" }}
+        style={{ background: "transparent", pointerEvents: "none" }}
       >
         <ambientLight intensity={0.8} />
         {/* Bright angular light to highlight the metallic surfaces */}

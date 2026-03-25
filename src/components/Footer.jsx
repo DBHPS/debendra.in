@@ -8,7 +8,7 @@ export default function Footer() {
 
   return (
     <footer
-      className={`border-t py-12 transition-colors duration-500 ${
+      className={`relative z-10 border-t py-12 transition-colors duration-500 ${
         theme === "systems"
           ? "bg-slate-50 border-slate-200 text-slate-600"
           : "bg-[#141415] border-[#2A2A2E] text-[#A1A1AA]"

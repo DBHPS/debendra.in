@@ -33,7 +33,7 @@ function PageContent() {
       }`}
     >
       {/* 3D Background — only on desktop */}
-      <div className="hidden lg:block">
+      <div className="hidden lg:block pointer-events-none">
         <div
           className={`transition-opacity duration-1000 ease-in-out ${
             theme === "systems" ? "opacity-100" : "opacity-0"
@@ -52,7 +52,7 @@ function PageContent() {
 
       <Navbar />
 
-      <main>
+      <main className="relative z-10">
         <AnimatePresence mode="wait">
           {theme === "systems" ? (
             <motion.div
