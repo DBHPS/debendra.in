@@ -32,10 +32,10 @@ function PageContent() {
         theme === "systems" ? "bg-[#FAFBFC]" : "bg-[#18181A]"
       }`}
     >
-      {/* 3D Background — only on desktop */}
-      <div className="hidden lg:block pointer-events-none">
+      {/* 3D Backgrounds */}
+      <div className="pointer-events-none">
         <div
-          className={`transition-opacity duration-1000 ease-in-out ${
+          className={`hidden lg:block transition-opacity duration-1000 ease-in-out ${
             theme === "systems" ? "opacity-100" : "opacity-0"
           }`}
         >
