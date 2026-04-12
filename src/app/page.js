@@ -24,6 +24,39 @@ const DroneMesh = dynamic(
   { ssr: false }
 );
 
+function SystemsContent() {
+  const expRef = useRef(null);
+  const { scrollYProgress: expScroll } = useScroll({
+    target: expRef,
+    offset: ["start 80%", "start 20%"]
+  });
+
+  const systemsBg = useTransform(
+    expScroll,
+    [0, 1],
+    ["#FAFBFC", "#2A2A30"]
+  );
+
+  return (
+    <>
+      {/* Background isolated inside the mounting component to keep useScroll sync'd */}
+      <motion.div
+        className="fixed inset-0 -z-20"
+        style={{ backgroundColor: systemsBg }}
+      />
+      <HeroSection />
+      <div ref={expRef}>
+        <ExperienceSection />
+      </div>
+      <BentoGrid />
+      <LeadershipSection />
+      <EducationSection />
+      <SkillsSection />
+      <AwardsSection />
+    </>
+  );
+}
+
 function PageContent() {
   const { theme, setTheme } = useTheme();
   const scrollRef = useRef(null);
@@ -34,6 +67,7 @@ function PageContent() {
   // This prevents layout height recalculations from falsely triggering a bottom-scroll transition before the window smooth-scrolls to the top.
   useEffect(() => {
     setCanAutoSwitch(false);
+    setTimeout(() => window.scrollTo(0, 0), 10);
     const timer = setTimeout(() => setCanAutoSwitch(true), 1000);
     return () => clearTimeout(timer);
   }, [theme]);
@@ -52,12 +86,6 @@ function PageContent() {
     }
   });
 
-  const systemsBg = useTransform(
-    scrollYProgress,
-    [0, 0.08, 0.15],
-    ["#FAFBFC", "#FAFBFC", "#2A2A30"]
-  );
-
   /* ─── Performance Optimization: 3D Unmounting ─── */
   const [activeCanvas, setActiveCanvas] = useState(theme);
 
@@ -70,19 +98,14 @@ function PageContent() {
   }, [theme]);
 
   return (
-    <div ref={scrollRef} className="min-h-screen transition-colors duration-700">
-      {/* Animated background via motion.div */}
-      <motion.div
-        className="fixed inset-0 -z-20"
-        style={{
-          backgroundColor: theme === "systems" ? systemsBg : "#18181A",
-        }}
-      />
+    <div ref={scrollRef} className="min-h-screen transition-colors duration-700 overflow-x-hidden">
+      {/* Narrative dark background fallback */}
+      <div className="fixed inset-0 -z-30 bg-[#18181A]" />
 
       {/* 3D Backgrounds */}
       <div className="pointer-events-none fixed inset-0 -z-10">
         <div
-          className={`hidden lg:block transition-opacity duration-1000 ease-in-out ${
+          className={`transition-opacity duration-1000 ease-in-out ${
             theme === "systems" ? "opacity-100" : "opacity-0"
           }`}
         >
@@ -109,13 +132,7 @@ function PageContent() {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <HeroSection />
-              <ExperienceSection />
-              <BentoGrid />
-              <LeadershipSection />
-              <EducationSection />
-              <SkillsSection />
-              <AwardsSection />
+              <SystemsContent />
             </motion.div>
           ) : (
             <motion.div

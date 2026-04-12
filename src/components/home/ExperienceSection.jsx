@@ -106,7 +106,7 @@ export default function ExperienceSection() {
         <SectionHeading className={theme === "systems" ? "text-slate-900" : "text-[#2C2C2C]"}>
           Experience
         </SectionHeading>
-        <p className={`text-lg mb-12 max-w-2xl ${theme === "systems" ? "text-slate-500" : "text-[#8B7E74]"}`}>
+        <p className={`text-lg mb-12 max-w-2xl ${theme === "systems" ? "text-slate-700" : "text-[#8B7E74]"}`}>
           From HPC pipelines at IIT Delhi to edge AI deployment — engineering impact across scales.
         </p>
 

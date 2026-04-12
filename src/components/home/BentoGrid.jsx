@@ -22,7 +22,7 @@ function ProjectCard({ project, index, theme }) {
           : "bg-[#FFFDF9]/60 backdrop-blur-sm border-[#E8E4DF] hover:shadow-[0_8px_30px_rgb(0,0,0,0.15)]"
       }`}
     >
-      <div className="flex items-start justify-between mb-3">
+      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2 mb-3">
         <h3
           className={`font-bold text-lg leading-tight ${
             theme === "systems" ? "text-slate-900" : "text-[#2C2C2C]"
@@ -32,7 +32,7 @@ function ProjectCard({ project, index, theme }) {
         </h3>
         {project.result && (
           <span
-            className={`text-xs font-semibold px-2 py-1 rounded-full shrink-0 ml-3 ${
+            className={`text-xs font-semibold px-2 py-1 rounded-full sm:shrink-0 w-fit ${
               theme === "systems"
                 ? "bg-emerald-50 text-emerald-700"
                 : "bg-[#E8F5E8] text-[#4A7C4A]"
@@ -101,7 +101,7 @@ export default function BentoGrid() {
         <SectionHeading className={theme === "systems" ? "text-slate-900" : "text-[#2C2C2C]"}>
           Projects
         </SectionHeading>
-        <p className={`text-lg mb-12 max-w-2xl ${theme === "systems" ? "text-slate-500" : "text-[#8B7E74]"}`}>
+        <p className={`text-lg mb-12 max-w-2xl ${theme === "systems" ? "text-slate-700" : "text-[#8B7E74]"}`}>
           From predictive analytics to autonomous rovers — building systems that drive measurable outcomes.
         </p>
 
