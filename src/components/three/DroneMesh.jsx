@@ -1,25 +1,74 @@
 "use client";
-import { useRef } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { useRef, useState, useEffect, useMemo } from "react";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { EffectComposer, DepthOfField } from "@react-three/postprocessing";
+import * as THREE from "three";
 
+/* ─── Mouse-tracking Spotlight (inside Canvas) ─── */
+function SpotlightFollower({ isNarrative }) {
+  const spotRef = useRef();
+  const { viewport } = useThree();
+  const mouse = useRef({ x: 0, y: 0 });
+  const isMobileRef = useRef(false);
+
+  useEffect(() => {
+    isMobileRef.current = window.innerWidth < 768;
+
+    if (isMobileRef.current) return; // Mobile uses fixed center
+
+    const onMove = (e) => {
+      // Map 2D mouse coordinates to exact NDC (Normalized Device Coordinates)
+      mouse.current.x = (e.clientX / window.innerWidth) * 2 - 1;
+      mouse.current.y = -(e.clientY / window.innerHeight) * 2 + 1;
+    };
+    window.addEventListener("mousemove", onMove);
+    return () => window.removeEventListener("mousemove", onMove);
+  }, [viewport]);
+
+  useFrame(() => {
+    if (!spotRef.current || !isNarrative) return;
+    if (isMobileRef.current) {
+      // Fixed center for mobile
+      spotRef.current.position.set(0, 0, 5);
+    } else {
+      // Scale NDC nicely so the light sweeps effectively across the scene
+      const sweepX = mouse.current.x * (viewport.width / 2);
+      const sweepY = mouse.current.y * (viewport.height / 2);
+      spotRef.current.position.set(sweepX, sweepY, 3);
+    }
+  });
+
+  if (!isNarrative) return null;
+
+  return (
+    <pointLight
+      ref={spotRef}
+      color="#ffffff"
+      intensity={5}
+      distance={15}
+      decay={2}
+    />
+  );
+}
+
+/* ─── Drone Geometry (kept exactly as user designed) ─── */
 function Drone() {
   const groupRef = useRef();
   const propRefs = useRef([]);
 
-  useFrame((state) => {
+  useFrame((state, delta) => {
     if (groupRef.current) {
-      // Spin the entire drone slowly
-      groupRef.current.rotation.y = state.clock.elapsedTime * 0.25;
-      // Tilt it slightly forward (top view)
-      groupRef.current.rotation.x = Math.PI / 6;
-      // Bob up and down for hovering effect
+      // Feature 5: Slow constant tumble (passive, ambient)
+      groupRef.current.rotation.x += 0.002;
+      groupRef.current.rotation.y += 0.002;
+
+      // Keep the hover bob
       groupRef.current.position.y = Math.sin(state.clock.elapsedTime * 0.5) * 0.15;
     }
 
-    // Spin the propellers really fast!
+    // Spin the propellers
     propRefs.current.forEach((prop, i) => {
       if (prop) {
-        // Alternate spin directions
         prop.rotation.y += (i % 2 === 0 ? 1 : -1) * 0.4;
       }
     });
@@ -44,7 +93,7 @@ function Drone() {
         <boxGeometry args={[0.15, 0.05, 0.1]} />
         <meshBasicMaterial color="#34D399" />
       </mesh>
-      
+
       {/* Rear Glowing Navigation Light */}
       <mesh position={[0, 0.05, -0.45]}>
         <boxGeometry args={[0.15, 0.05, 0.1]} />
@@ -111,7 +160,34 @@ function Drone() {
   );
 }
 
-export default function DroneMesh() {
+/* ─── DOF Post-processing (Feature 7) ─── */
+function FocalBlurEffect() {
+  const [enabled, setEnabled] = useState(true);
+
+  useEffect(() => {
+    // Disable on low-end devices
+    const isLowEnd =
+      window.innerWidth < 768 ||
+      (navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4);
+    if (isLowEnd) setEnabled(false);
+  }, []);
+
+  if (!enabled) return null;
+
+  return (
+    <EffectComposer>
+      <DepthOfField
+        focusDistance={0.02}
+        focalLength={0.05}
+        bokehScale={3}
+        height={480}
+      />
+    </EffectComposer>
+  );
+}
+
+/* ─── Main DroneMesh Component ─── */
+export default function DroneMesh({ isNarrative = false }) {
   return (
     <div className="fixed inset-0 -z-10 pointer-events-none">
       <Canvas
@@ -120,11 +196,22 @@ export default function DroneMesh() {
         gl={{ antialias: true, alpha: true }}
         style={{ background: "transparent", pointerEvents: "none" }}
       >
-        <ambientLight intensity={0.8} />
-        {/* Bright angular light to highlight the metallic surfaces */}
-        <directionalLight position={[10, 15, 10]} intensity={2} />
-        <directionalLight position={[-10, -10, -10]} intensity={0.5} />
+        {/* Feature 6: Dynamic lighting based on mode */}
+        <ambientLight intensity={isNarrative ? 0.1 : 0.8} />
+        {!isNarrative && (
+          <>
+            <directionalLight position={[10, 15, 10]} intensity={2} />
+            <directionalLight position={[-10, -10, -10]} intensity={0.5} />
+          </>
+        )}
+
+        {/* Feature 6: Spotlight in narrative mode */}
+        <SpotlightFollower isNarrative={isNarrative} />
+
         <Drone />
+
+        {/* Feature 7: Focal Blur */}
+        <FocalBlurEffect />
       </Canvas>
     </div>
   );

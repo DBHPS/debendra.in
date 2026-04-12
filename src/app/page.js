@@ -1,7 +1,8 @@
 "use client";
 import { ThemeProvider, useTheme } from "@/context/ThemeContext";
 import dynamic from "next/dynamic";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
+import { useRef, useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import HeroSection from "@/components/home/HeroSection";
@@ -24,29 +25,75 @@ const DroneMesh = dynamic(
 );
 
 function PageContent() {
-  const { theme } = useTheme();
+  const { theme, setTheme } = useTheme();
+  const scrollRef = useRef(null);
+  const [canAutoSwitch, setCanAutoSwitch] = useState(false);
+
+  // Allow the browser to restore manual scroll positions first
+  // We ignore auto-switching for the first 1000ms after ANY theme change
+  // This prevents layout height recalculations from falsely triggering a bottom-scroll transition before the window smooth-scrolls to the top.
+  useEffect(() => {
+    setCanAutoSwitch(false);
+    const timer = setTimeout(() => setCanAutoSwitch(true), 1000);
+    return () => clearTimeout(timer);
+  }, [theme]);
+
+  /* ─── Feature 1: Scroll Fades — auto-narrative transition ─── */
+  const { scrollYProgress } = useScroll();
+
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    if (!canAutoSwitch) return; // Prevent initial refresh jumps from firing logic
+
+    // Switch to narrative only when reaching the very end of the systems page
+    if (latest >= 0.99 && theme !== "narrative") {
+      setTheme("narrative");
+      // Jump to the top so narrative starts fresh
+      setTimeout(() => window.scrollTo(0, 0), 10);
+    }
+  });
+
+  const systemsBg = useTransform(
+    scrollYProgress,
+    [0, 0.08, 0.15],
+    ["#FAFBFC", "#FAFBFC", "#2A2A30"]
+  );
+
+  /* ─── Performance Optimization: 3D Unmounting ─── */
+  const [activeCanvas, setActiveCanvas] = useState(theme);
+
+  useEffect(() => {
+    // Wait for the 1000ms CSS fade-opacity transition to finish, then unmount the old canvas entirely
+    const timer = setTimeout(() => {
+      setActiveCanvas(theme);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, [theme]);
 
   return (
-    <div
-      className={`min-h-screen transition-colors duration-700 ${
-        theme === "systems" ? "bg-[#FAFBFC]" : "bg-[#18181A]"
-      }`}
-    >
+    <div ref={scrollRef} className="min-h-screen transition-colors duration-700">
+      {/* Animated background via motion.div */}
+      <motion.div
+        className="fixed inset-0 -z-20"
+        style={{
+          backgroundColor: theme === "systems" ? systemsBg : "#18181A",
+        }}
+      />
+
       {/* 3D Backgrounds */}
-      <div className="pointer-events-none">
+      <div className="pointer-events-none fixed inset-0 -z-10">
         <div
           className={`hidden lg:block transition-opacity duration-1000 ease-in-out ${
             theme === "systems" ? "opacity-100" : "opacity-0"
           }`}
         >
-          <NetworkWireframe />
+          {(activeCanvas === "systems" || theme === "systems") && <NetworkWireframe />}
         </div>
         <div
           className={`transition-opacity duration-1000 ease-in-out ${
             theme === "narrative" ? "opacity-100" : "opacity-0"
           }`}
         >
-          <DroneMesh />
+          {(activeCanvas === "narrative" || theme === "narrative") && <DroneMesh isNarrative={theme === "narrative"} />}
         </div>
       </div>
 

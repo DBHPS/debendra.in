@@ -1,16 +1,42 @@
 "use client";
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { motion, useInView, useScroll, useTransform } from "framer-motion";
+import { useRef, useEffect } from "react";
 import data from "@/data/data";
 import { useTheme } from "@/context/ThemeContext";
 import Image from "next/image";
 
 export default function NarrativeTimeline() {
   const { theme } = useTheme();
+  
+  /* ─── Feature 6: Text Spotlight ─── */
+  const timelineRef = useRef(null);
+
+  useEffect(() => {
+    if (window.innerWidth < 768) return; // Keep default center on mobile
+
+    const updatePointer = (e) => {
+      if (!timelineRef.current) return;
+      const rect = timelineRef.current.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      timelineRef.current.style.setProperty("--mouse-x", `${x}px`);
+      timelineRef.current.style.setProperty("--mouse-y", `${y}px`);
+    };
+
+    window.addEventListener("mousemove", updatePointer);
+    return () => window.removeEventListener("mousemove", updatePointer);
+  }, []);
 
   return (
-    <div id="narrative-about" className="py-20">
-      <div className="max-w-4xl mx-auto px-6">
+    <div id="narrative-about" className="py-20 relative" ref={timelineRef}>
+      {/* Dynamic Cursor Highlight Overlay */}
+      <div 
+        className="pointer-events-none absolute inset-0 z-0 hidden md:block transition duration-300"
+        style={{
+          background: `radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255,255,255,0.06), transparent 40%)`
+        }}
+      />
+      <div className="max-w-4xl mx-auto px-6 relative z-10">
         {/* Narrative Hero */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -167,16 +193,29 @@ export default function NarrativeTimeline() {
   );
 }
 
+/* ─── Feature 1: Timeline items with scroll-based horizontal slide-in ─── */
 function TimelineItem({ item, index, isLeft }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-40px" });
 
+  // Scroll-based x-axis slide: from left for even, from right for odd
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "center center"],
+  });
+
+  const xOffset = useTransform(
+    scrollYProgress,
+    [0, 1],
+    [isLeft ? -80 : 80, 0]
+  );
+
+  const itemOpacity = useTransform(scrollYProgress, [0, 0.5], [0, 1]);
+
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 30 }}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.5, delay: index * 0.08 }}
+      style={{ x: xOffset, opacity: itemOpacity }}
       className={`relative flex items-center mb-10 ${
         isLeft ? "md:flex-row" : "md:flex-row-reverse"
       } flex-row`}

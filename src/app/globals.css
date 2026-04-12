@@ -42,3 +42,50 @@ html {
   background-color: #3B82F6;
   color: white;
 }
+
+/* Feature 2: Gentle Nudge Wire Glow */
+.wire-path {
+  stroke-dasharray: 40 250;
+  stroke-dashoffset: 290;
+  animation: wireRun 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  filter: drop-shadow(0 0 6px rgba(59, 130, 246, 0.8));
+}
+
+@keyframes wireRun {
+  0% {
+    stroke-dashoffset: 290;
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  70% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  85% {
+    opacity: 0;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+
+/* Feature 6: CSS fallback spotlight for narrative mode */
+.narrative-spotlight {
+  -webkit-mask-image: radial-gradient(
+    ellipse 50% 40% at 50% 50%,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0.6) 40%,
+    rgba(0, 0, 0, 0.1) 70%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  mask-image: radial-gradient(
+    ellipse 50% 40% at 50% 50%,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0.6) 40%,
+    rgba(0, 0, 0, 0.1) 70%,
+    rgba(0, 0, 0, 0) 100%
+  );
+}

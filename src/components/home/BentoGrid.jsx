@@ -16,10 +16,10 @@ function ProjectCard({ project, index, theme }) {
       initial={{ opacity: 0, y: 40 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.6, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
-      className={`group p-6 rounded-2xl border transition-all duration-500 hover:shadow-lg ${
+      className={`group p-6 rounded-2xl border transition-all duration-300 hover:-translate-y-[5px] hover:scale-[1.02] ${
         theme === "systems"
-          ? "bg-white/60 backdrop-blur-sm border-slate-200 hover:border-blue-200 hover:shadow-blue-600/5"
-          : "bg-[#FFFDF9]/60 backdrop-blur-sm border-[#E8E4DF] hover:border-[#C8BFB6] hover:shadow-black/5"
+          ? "bg-white/60 backdrop-blur-sm border-slate-200 hover:shadow-[0_8px_30px_rgb(59,130,246,0.30)]"
+          : "bg-[#FFFDF9]/60 backdrop-blur-sm border-[#E8E4DF] hover:shadow-[0_8px_30px_rgb(0,0,0,0.15)]"
       }`}
     >
       <div className="flex items-start justify-between mb-3">
@@ -64,6 +64,7 @@ function ProjectCard({ project, index, theme }) {
           <MediaCard src={project.media} type={project.mediaType || "video"} />
         </div>
       )}
+
 
       <div className="flex flex-wrap gap-1.5">
         {project.tags.map((tag) => (

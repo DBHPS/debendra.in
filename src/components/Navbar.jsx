@@ -4,9 +4,40 @@ import { motion, AnimatePresence } from "framer-motion";
 import data from "@/data/data";
 import Image from "next/image";
 import Link from "next/link";
+import { useState, useEffect, useRef, useCallback } from "react";
 
 export default function Navbar() {
-  const { theme, toggleTheme } = useTheme();
+  const { theme, toggleTheme, setTheme } = useTheme();
+
+  /* ─── Feature 2: Gentle Nudge ─── */
+  const [showNudge, setShowNudge] = useState(false);
+  const timerRef = useRef(null);
+
+  const restartTimer = useCallback(() => {
+    setShowNudge(false);
+    if (timerRef.current) clearTimeout(timerRef.current);
+    
+    // Only auto-trigger nudge if we are in systems mode
+    if (theme === "systems") {
+      timerRef.current = setTimeout(() => {
+        setShowNudge(true);
+      }, 5000);
+    }
+  }, [theme]);
+
+  useEffect(() => {
+    restartTimer();
+
+    const events = ["scroll", "click", "touchstart", "mousemove", "keydown"];
+    const handleInteraction = () => restartTimer();
+
+    events.forEach((evt) => window.addEventListener(evt, handleInteraction, { passive: true }));
+
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+      events.forEach((evt) => window.removeEventListener(evt, handleInteraction));
+    };
+  }, [restartTimer]);
 
   return (
     <motion.nav
@@ -72,18 +103,14 @@ export default function Navbar() {
           })}
         </div>
 
-        {/* Theme Toggle */}
-        <button
-          onClick={() => {
-            toggleTheme();
-            window.scrollTo({ top: 0, behavior: "smooth" });
-          }}
-          className={`relative flex items-center w-[180px] h-10 rounded-full p-1 transition-colors duration-500 cursor-pointer ${
+        {/* Theme Toggle — with gentle nudge animation */}
+        <div
+          className={`relative flex items-center w-[180px] h-10 rounded-full p-1 transition-colors duration-500 ${
             theme === "systems"
               ? "bg-slate-100 border border-slate-200"
               : "bg-[#252529] border border-[#3F3F46]"
           }`}
-          aria-label="Toggle theme"
+          aria-label="Theme selector"
         >
           <motion.div
             layout
@@ -92,21 +119,42 @@ export default function Navbar() {
               theme === "systems" ? "bg-white left-1" : "bg-white left-[91px]"
             }`}
           />
-          <span
-            className={`relative z-10 flex-1 text-center text-xs font-semibold tracking-wide transition-colors duration-300 ${
+          <button
+            onClick={() => {
+              setShowNudge(false);
+              setTheme("systems");
+              window.scrollTo({ top: 0, behavior: "instant" });
+            }}
+            className={`relative z-10 flex-1 text-center text-xs font-semibold tracking-wide transition-colors duration-300 cursor-pointer ${
               theme === "systems" ? "text-slate-900" : "text-slate-400"
             }`}
           >
             Systems
-          </span>
-          <span
-            className={`relative z-10 flex-1 text-center text-xs font-semibold tracking-wide transition-colors duration-300 ${
-              theme === "narrative" ? "text-[#F1F1F1]" : "text-slate-400"
-            }`}
+          </button>
+          <button
+            onClick={() => {
+              setShowNudge(false);
+              setTheme("narrative");
+              window.scrollTo({ top: 0, behavior: "instant" });
+            }}
+            className={`relative z-10 flex-1 flex items-center justify-center h-full rounded-full text-xs font-semibold tracking-wide transition-all duration-300 cursor-pointer ${
+              theme === "narrative" ? "text-slate-900" : "text-slate-400"
+            } ${showNudge ? "text-blue-600" : ""}`}
           >
+            {showNudge && (
+              <svg className="absolute inset-0 w-full h-full pointer-events-none overflow-visible">
+                <rect 
+                  x="0" y="0" width="100%" height="100%" rx="16" 
+                  fill="none" 
+                  stroke="#3B82F6" 
+                  strokeWidth="2"
+                  className="wire-path"
+                />
+              </svg>
+            )}
             Narrative
-          </span>
-        </button>
+          </button>
+        </div>
       </div>
     </motion.nav>
   );

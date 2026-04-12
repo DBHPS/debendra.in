@@ -1,6 +1,6 @@
 "use client";
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { motion, useInView, useMotionValue, useSpring } from "framer-motion";
+import { useRef, useState, useEffect, useCallback } from "react";
 import data from "@/data/data";
 import { useTheme } from "@/context/ThemeContext";
 import Image from "next/image";
@@ -9,6 +9,40 @@ export default function HeroSection() {
   const { theme } = useTheme();
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
+
+  /* ─── Feature 4: Text Parallax (Desktop Only) ─── */
+  const [isDesktop, setIsDesktop] = useState(false);
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const springX = useSpring(mouseX, { stiffness: 80, damping: 20 });
+  const springY = useSpring(mouseY, { stiffness: 80, damping: 20 });
+
+  useEffect(() => {
+    const check = () => setIsDesktop(window.innerWidth >= 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  const handleMouseMove = useCallback(
+    (e) => {
+      if (!isDesktop || !ref.current) return;
+      const rect = ref.current.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      // Inverse movement, max ±15px
+      const offsetX = -((e.clientX - centerX) / rect.width) * 15;
+      const offsetY = -((e.clientY - centerY) / rect.height) * 15;
+      mouseX.set(offsetX);
+      mouseY.set(offsetY);
+    },
+    [isDesktop, mouseX, mouseY]
+  );
+
+  const handleMouseLeave = useCallback(() => {
+    mouseX.set(0);
+    mouseY.set(0);
+  }, [mouseX, mouseY]);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -28,6 +62,8 @@ export default function HeroSection() {
       ref={ref}
       id="about"
       className="min-h-screen flex items-center pt-24 pb-16"
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
     >
       <div className="max-w-7xl mx-auto px-6 w-full">
         <motion.div
@@ -50,8 +86,14 @@ export default function HeroSection() {
               </span>
             </motion.div>
 
+            {/* Feature 4: Parallax-enabled heading */}
             <motion.h1
               variants={itemVariants}
+              style={
+                isDesktop
+                  ? { x: springX, y: springY }
+                  : {}
+              }
               className={`text-5xl md:text-7xl font-bold tracking-tight leading-[1.1] mb-6 ${
                 theme === "systems" ? "text-slate-900" : "text-[#2C2C2C]"
               }`}

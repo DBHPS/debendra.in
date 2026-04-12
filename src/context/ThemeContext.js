@@ -1,17 +1,32 @@
 "use client";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 const ThemeContext = createContext();
 
 export function ThemeProvider({ children }) {
-  const [theme, setTheme] = useState("systems");
+  const [theme, setThemeState] = useState("systems");
+
+  // Restore theme from localStorage on mount
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem("portfolio-theme");
+      if (stored) setThemeState(stored);
+    }
+  }, []);
+
+  const setTheme = (newTheme) => {
+    setThemeState(newTheme);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("portfolio-theme", newTheme);
+    }
+  };
 
   const toggleTheme = () => {
-    setTheme((prev) => (prev === "systems" ? "narrative" : "systems"));
+    setTheme(theme === "systems" ? "narrative" : "systems");
   };
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <ThemeContext.Provider value={{ theme, toggleTheme, setTheme }}>
       {children}
     </ThemeContext.Provider>
   );
