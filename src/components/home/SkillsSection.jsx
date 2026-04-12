@@ -55,7 +55,7 @@ export default function SkillsSection() {
   return (
     <section id="skills" className="py-20">
       <div className="max-w-7xl mx-auto px-6">
-        <SectionHeading className={theme === "systems" ? "text-slate-900" : "text-[#2C2C2C]"}>
+        <SectionHeading className={theme === "systems" ? "text-slate-500" : "text-[#2C2C2C]"}>
           Skills & Expertise
         </SectionHeading>
 

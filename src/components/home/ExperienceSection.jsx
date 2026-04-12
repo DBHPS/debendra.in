@@ -97,18 +97,37 @@ function ExperienceCard({ exp, index }) {
   );
 }
 
-export default function ExperienceSection() {
+export default function ExperienceSection({ headingColor, subHeadingColor }) {
   const { theme } = useTheme();
 
   return (
     <section id="experience" className="py-20">
       <div className="max-w-7xl mx-auto px-6">
-        <SectionHeading className={theme === "systems" ? "text-slate-900" : "text-[#2C2C2C]"}>
-          Experience
-        </SectionHeading>
-        <p className={`text-lg mb-12 max-w-2xl ${theme === "systems" ? "text-slate-700" : "text-[#8B7E74]"}`}>
-          From HPC pipelines at IIT Delhi to edge AI deployment — engineering impact across scales.
-        </p>
+        {headingColor ? (
+          <motion.h2
+            className={`text-4xl md:text-5xl font-bold tracking-tight mb-4 ${theme !== "systems" && "text-[#2C2C2C]"}`}
+            style={theme === "systems" ? { color: headingColor } : {}}
+          >
+            Experience
+          </motion.h2>
+        ) : (
+          <SectionHeading className={theme === "systems" ? "text-slate-900" : "text-[#2C2C2C]"}>
+            Experience
+          </SectionHeading>
+        )}
+        
+        {subHeadingColor ? (
+          <motion.p
+            className={`text-lg mb-12 max-w-2xl ${theme !== "systems" && "text-[#8B7E74]"}`}
+            style={theme === "systems" ? { color: subHeadingColor } : {}}
+          >
+            From HPC pipelines at IIT Delhi to edge AI deployment — engineering impact across scales.
+          </motion.p>
+        ) : (
+          <p className={`text-lg mb-12 max-w-2xl ${theme === "systems" ? "text-slate-700" : "text-[#8B7E74]"}`}>
+            From HPC pipelines at IIT Delhi to edge AI deployment — engineering impact across scales.
+          </p>
+        )}
 
         <div className="grid md:grid-cols-2 gap-6">
           {data.experience.map((exp, i) => (

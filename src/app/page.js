@@ -37,6 +37,18 @@ function SystemsContent({ bgSignal }) {
     ["#FAFBFC", "#2A2A30"]
   );
 
+  const headingColor = useTransform(
+    expScroll,
+    [0, 1],
+    ["#0F172A", "#64748B"] // slate-900 to slate-500
+  );
+  
+  const subHeadingColor = useTransform(
+    expScroll,
+    [0, 1],
+    ["#334155", "#475569"] // slate-700 to slate-600
+  );
+
   useMotionValueEvent(systemsBg, "change", (latest) => {
     if (bgSignal) bgSignal.set(latest);
   });
@@ -49,7 +61,7 @@ function SystemsContent({ bgSignal }) {
     <>
       <HeroSection />
       <div ref={expRef}>
-        <ExperienceSection />
+        <ExperienceSection headingColor={headingColor} subHeadingColor={subHeadingColor} />
       </div>
       <BentoGrid />
       <LeadershipSection />
