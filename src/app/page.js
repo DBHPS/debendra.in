@@ -1,7 +1,7 @@
 "use client";
 import { ThemeProvider, useTheme } from "@/context/ThemeContext";
 import dynamic from "next/dynamic";
-import { AnimatePresence, motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
+import { AnimatePresence, motion, useScroll, useTransform, useMotionValueEvent, useMotionValue } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -24,7 +24,7 @@ const DroneMesh = dynamic(
   { ssr: false }
 );
 
-function SystemsContent() {
+function SystemsContent({ bgSignal }) {
   const expRef = useRef(null);
   const { scrollYProgress: expScroll } = useScroll({
     target: expRef,
@@ -37,13 +37,16 @@ function SystemsContent() {
     ["#FAFBFC", "#2A2A30"]
   );
 
+  useMotionValueEvent(systemsBg, "change", (latest) => {
+    if (bgSignal) bgSignal.set(latest);
+  });
+
+  useEffect(() => {
+    if (bgSignal) bgSignal.set(systemsBg.get());
+  }, [bgSignal, systemsBg]);
+
   return (
     <>
-      {/* Background isolated inside the mounting component to keep useScroll sync'd */}
-      <motion.div
-        className="fixed inset-0 -z-20"
-        style={{ backgroundColor: systemsBg }}
-      />
       <HeroSection />
       <div ref={expRef}>
         <ExperienceSection />
@@ -62,12 +65,19 @@ function PageContent() {
   const scrollRef = useRef(null);
   const [canAutoSwitch, setCanAutoSwitch] = useState(false);
 
+  const bgSignal = useMotionValue(theme === "systems" ? "#FAFBFC" : "#18181A");
+
+  useEffect(() => {
+    if (theme === "narrative") {
+      bgSignal.set("#18181A");
+    }
+  }, [theme, bgSignal]);
+
   // Allow the browser to restore manual scroll positions first
   // We ignore auto-switching for the first 1000ms after ANY theme change
   // This prevents layout height recalculations from falsely triggering a bottom-scroll transition before the window smooth-scrolls to the top.
   useEffect(() => {
     setCanAutoSwitch(false);
-    setTimeout(() => window.scrollTo(0, 0), 10);
     const timer = setTimeout(() => setCanAutoSwitch(true), 1000);
     return () => clearTimeout(timer);
   }, [theme]);
@@ -81,8 +91,6 @@ function PageContent() {
     // Switch to narrative only when reaching the very end of the systems page
     if (latest >= 0.99 && theme !== "narrative") {
       setTheme("narrative");
-      // Jump to the top so narrative starts fresh
-      setTimeout(() => window.scrollTo(0, 0), 10);
     }
   });
 
@@ -99,8 +107,11 @@ function PageContent() {
 
   return (
     <div ref={scrollRef} className="min-h-screen transition-colors duration-700 overflow-x-hidden">
-      {/* Narrative dark background fallback */}
-      <div className="fixed inset-0 -z-30 bg-[#18181A]" />
+      {/* Global Background */}
+      <motion.div
+        className="fixed inset-0 -z-30 transition-colors duration-500 ease-in-out"
+        style={{ backgroundColor: theme === "systems" ? bgSignal : "#18181A" }}
+      />
 
       {/* 3D Backgrounds */}
       <div className="pointer-events-none fixed inset-0 -z-10">
@@ -123,7 +134,7 @@ function PageContent() {
       <Navbar />
 
       <main className="relative z-10">
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode="wait" onExitComplete={() => window.scrollTo({ top: 0, left: 0, behavior: 'instant' })}>
           {theme === "systems" ? (
             <motion.div
               key="systems"
@@ -132,7 +143,7 @@ function PageContent() {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <SystemsContent />
+              <SystemsContent bgSignal={bgSignal} />
             </motion.div>
           ) : (
             <motion.div
