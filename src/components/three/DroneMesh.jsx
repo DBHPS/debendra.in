@@ -175,12 +175,12 @@ function FocalBlurEffect() {
   if (!enabled) return null;
 
   return (
-    <EffectComposer>
+    <EffectComposer multisampling={0}>
       <DepthOfField
         focusDistance={0.02}
         focalLength={0.05}
-        bokehScale={3}
-        height={480}
+        bokehScale={2}
+        height={360}
       />
     </EffectComposer>
   );
@@ -192,8 +192,8 @@ export default function DroneMesh({ isNarrative = false }) {
     <div className="fixed inset-0 -z-10 pointer-events-none">
       <Canvas
         camera={{ position: [0, 0, 7], fov: 40 }}
-        dpr={[1, 1.5]}
-        gl={{ antialias: true, alpha: true }}
+        dpr={[1, 1.25]}
+        gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
         style={{ background: "transparent", pointerEvents: "none" }}
       >
         {/* Feature 6: Dynamic lighting based on mode */}
