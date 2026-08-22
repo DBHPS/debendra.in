@@ -2,6 +2,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import data from "@/data/data";
 import { Analytics } from "@vercel/analytics/react";
+import SiteShell from "@/components/SiteShell";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -72,7 +73,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={inter.variable}>
       <body className="font-sans antialiased">
-        {children}
+        <SiteShell>{children}</SiteShell>
         <Analytics />
       </body>
     </html>
