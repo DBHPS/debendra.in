@@ -27,7 +27,7 @@ export default function EducationSection() {
               transition={{ duration: 0.5, delay: i * 0.15 }}
               className={`p-6 rounded-2xl border transition-all duration-300 hover:-translate-y-[5px] hover:scale-[1.02] ${
                 theme === "systems"
-                  ? "bg-white/60 backdrop-blur-sm border-slate-200 hover:shadow-[0_8px_30px_rgb(59,130,246,0.30)]"
+                  ? "bg-white/95 border-slate-300 hover:shadow-[0_8px_30px_rgb(59,130,246,0.30)]"
                   : "bg-[#FFFDF9]/60 backdrop-blur-sm border-[#E8E4DF] hover:shadow-[0_8px_30px_rgb(0,0,0,0.15)]"
               }`}
             >
@@ -42,17 +42,17 @@ export default function EducationSection() {
                     {edu.institution}
                   </h3>
                   {edu.period && (
-                    <p className={`text-xs ${theme === "systems" ? "text-slate-400" : "text-[#A09890]"}`}>
+                    <p className={`text-xs ${theme === "systems" ? "text-slate-500" : "text-[#A09890]"}`}>
                       {edu.period}
                     </p>
                   )}
                 </div>
               </div>
-              <p className={`font-medium text-sm ${theme === "systems" ? "text-blue-600" : "text-[#8B7E74]"}`}>
+              <p className={`font-medium text-sm ${theme === "systems" ? "text-blue-700" : "text-[#8B7E74]"}`}>
                 {edu.degree}
               </p>
               {edu.grade && (
-                <p className={`text-xs mt-1 font-semibold ${theme === "systems" ? "text-emerald-600" : "text-[#5A7A64]"}`}>
+                <p className={`text-xs mt-1 font-semibold ${theme === "systems" ? "text-emerald-800" : "text-[#5A7A64]"}`}>
                   {edu.grade}
                 </p>
               )}

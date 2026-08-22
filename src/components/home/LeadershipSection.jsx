@@ -18,7 +18,7 @@ function LeadershipCard({ item, index }) {
       transition={{ duration: 0.6, delay: index * 0.12, ease: [0.22, 1, 0.36, 1] }}
       className={`p-6 rounded-2xl border transition-all duration-300 hover:-translate-y-[5px] hover:scale-[1.02] ${
         theme === "systems"
-          ? "bg-white/60 backdrop-blur-sm border-slate-200 hover:shadow-[0_8px_30px_rgb(59,130,246,0.30)]"
+          ? "bg-white/95 border-slate-300 hover:shadow-[0_8px_30px_rgb(59,130,246,0.30)]"
           : "bg-[#FFFDF9]/60 backdrop-blur-sm border-[#E8E4DF] hover:shadow-[0_8px_30px_rgb(0,0,0,0.15)]"
       }`}
     >
@@ -28,19 +28,19 @@ function LeadershipCard({ item, index }) {
         >
           {item.role}
         </h3>
-        <span className={`text-xs shrink-0 ml-3 ${theme === "systems" ? "text-slate-400" : "text-[#A09890]"}`}>
+        <span className={`text-xs shrink-0 ml-3 ${theme === "systems" ? "text-slate-500" : "text-[#A09890]"}`}>
           {item.period}
         </span>
       </div>
 
-      <p className={`text-sm mb-1 ${theme === "systems" ? "text-blue-600" : "text-[#8B7E74]"}`}>
+      <p className={`text-sm mb-1 ${theme === "systems" ? "text-blue-700" : "text-[#8B7E74]"}`}>
         {item.organization}
       </p>
-      <p className={`text-xs mb-3 italic ${theme === "systems" ? "text-slate-400" : "text-[#A09890]"}`}>
+      <p className={`text-xs mb-3 italic ${theme === "systems" ? "text-slate-600" : "text-[#A09890]"}`}>
         {item.subtitle}
       </p>
 
-      <p className={`font-semibold text-sm mb-3 ${theme === "systems" ? "text-emerald-600" : "text-[#5A7A64]"}`}>
+      <p className={`font-semibold text-sm mb-3 ${theme === "systems" ? "text-emerald-800" : "text-[#5A7A64]"}`}>
         ↗ {item.impact}
       </p>
 
@@ -49,7 +49,7 @@ function LeadershipCard({ item, index }) {
           <li
             key={i}
             className={`text-sm leading-relaxed pl-4 relative before:content-['–'] before:absolute before:left-0 ${
-              theme === "systems" ? "text-slate-500" : "text-[#8B8178]"
+              theme === "systems" ? "text-slate-600" : "text-[#8B8178]"
             }`}
           >
             {h}

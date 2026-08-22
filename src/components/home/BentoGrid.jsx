@@ -18,7 +18,7 @@ function ProjectCard({ project, index, theme }) {
       transition={{ duration: 0.6, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
       className={`group p-6 rounded-2xl border transition-all duration-300 hover:-translate-y-[5px] hover:scale-[1.02] ${
         theme === "systems"
-          ? "bg-white/60 backdrop-blur-sm border-slate-200 hover:shadow-[0_8px_30px_rgb(59,130,246,0.30)]"
+          ? "bg-white/95 border-slate-300 hover:shadow-[0_8px_30px_rgb(59,130,246,0.30)]"
           : "bg-[#FFFDF9]/60 backdrop-blur-sm border-[#E8E4DF] hover:shadow-[0_8px_30px_rgb(0,0,0,0.15)]"
       }`}
     >
@@ -45,7 +45,7 @@ function ProjectCard({ project, index, theme }) {
 
       <p
         className={`font-semibold text-sm mb-2 ${
-          theme === "systems" ? "text-blue-600" : "text-[#8B7E74]"
+          theme === "systems" ? "text-blue-700" : "text-[#8B7E74]"
         }`}
       >
         {project.impact}
@@ -53,7 +53,7 @@ function ProjectCard({ project, index, theme }) {
 
       <p
         className={`text-sm mb-4 leading-relaxed ${
-          theme === "systems" ? "text-slate-500" : "text-[#8B8178]"
+          theme === "systems" ? "text-slate-600" : "text-[#8B8178]"
         }`}
       >
         {project.description}

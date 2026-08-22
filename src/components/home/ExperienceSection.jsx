@@ -18,7 +18,7 @@ function ExperienceCard({ exp, index }) {
       transition={{ duration: 0.6, delay: index * 0.15, ease: [0.22, 1, 0.36, 1] }}
       className={`p-6 rounded-2xl border transition-all duration-300 hover:-translate-y-[5px] hover:scale-[1.02] ${
         theme === "systems"
-          ? "bg-white/60 backdrop-blur-sm border-slate-200 hover:shadow-[0_8px_30px_rgb(59,130,246,0.30)]"
+          ? "bg-white/95 border-slate-300 hover:shadow-[0_8px_30px_rgb(59,130,246,0.30)]"
           : "bg-[#FFFDF9]/60 backdrop-blur-sm border-[#E8E4DF] hover:shadow-[0_8px_30px_rgb(0,0,0,0.15)]"
       }`}
     >
@@ -31,15 +31,15 @@ function ExperienceCard({ exp, index }) {
           >
             {exp.role}
           </h3>
-          <p className={`text-sm font-medium ${theme === "systems" ? "text-blue-600" : "text-[#8B7E74]"}`}>
+          <p className={`text-sm font-medium ${theme === "systems" ? "text-blue-700" : "text-[#8B7E74]"}`}>
             {exp.organization}
           </p>
         </div>
         <div className="text-right shrink-0 ml-4">
-          <p className={`text-sm font-medium ${theme === "systems" ? "text-slate-400" : "text-[#A09890]"}`}>
+          <p className={`text-sm font-medium ${theme === "systems" ? "text-slate-500" : "text-[#A09890]"}`}>
             {exp.period}
           </p>
-          <p className={`text-xs ${theme === "systems" ? "text-slate-400" : "text-[#A09890]"}`}>
+          <p className={`text-xs ${theme === "systems" ? "text-slate-500" : "text-[#A09890]"}`}>
             {exp.location}
           </p>
         </div>
@@ -47,7 +47,7 @@ function ExperienceCard({ exp, index }) {
 
       <p
         className={`font-semibold text-sm mt-3 mb-3 ${
-          theme === "systems" ? "text-emerald-600" : "text-[#5A7A64]"
+          theme === "systems" ? "text-emerald-800" : "text-[#5A7A64]"
         }`}
       >
         ↗ {exp.impact}
@@ -58,7 +58,7 @@ function ExperienceCard({ exp, index }) {
           <li
             key={i}
             className={`text-sm leading-relaxed pl-4 relative before:content-['–'] before:absolute before:left-0 ${
-              theme === "systems" ? "text-slate-500" : "text-[#8B8178]"
+              theme === "systems" ? "text-slate-600" : "text-[#8B8178]"
             }`}
           >
             {h}
@@ -87,7 +87,7 @@ function ExperienceCard({ exp, index }) {
           target="_blank"
           rel="noopener noreferrer"
           className={`inline-flex items-center gap-1 text-xs font-semibold mt-4 transition-colors ${
-            theme === "systems" ? "text-blue-600 hover:text-blue-800" : "text-[#8B7E74] hover:text-[#6B6B6B]"
+            theme === "systems" ? "text-blue-700 hover:text-blue-800" : "text-[#8B7E74] hover:text-[#6B6B6B]"
           }`}
         >
           View Certificate →

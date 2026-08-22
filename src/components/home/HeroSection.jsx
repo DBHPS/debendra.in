@@ -123,7 +123,7 @@ export default function HeroSection() {
             <motion.p
               variants={itemVariants}
               className={`text-base max-w-2xl mb-8 ${
-                theme === "systems" ? "text-slate-400" : "text-[#A09890]"
+                theme === "systems" ? "text-slate-500" : "text-[#A09890]"
               }`}
             >
               {data.personal.title}
