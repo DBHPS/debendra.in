@@ -1,5 +1,6 @@
 "use client";
 import { useRef, useState, useEffect } from "react";
+import Image from "next/image";
 import { useTheme } from "@/context/ThemeContext";
 
 export default function MediaCard({ src, type = "video", alt = "", className = "" }) {
@@ -83,7 +84,17 @@ export default function MediaCard({ src, type = "video", alt = "", className = "
           className="w-full aspect-video object-cover"
         />
       ) : (
-        <img src={src} alt={alt} className="w-full aspect-video object-cover" />
+        // Expects a path under /public. A remote URL would need its host added
+        // to images.remotePatterns in next.config.mjs.
+        <div className="relative w-full aspect-video">
+          <Image
+            src={src}
+            alt={alt}
+            fill
+            sizes="(min-width: 768px) 50vw, 100vw"
+            className="object-cover"
+          />
+        </div>
       )}
     </div>
   );

@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useState, useEffect, useMemo } from "react";
+import { useRef, useEffect } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { EffectComposer, DepthOfField } from "@react-three/postprocessing";
 import * as THREE from "three";
@@ -161,18 +161,21 @@ function Drone() {
 }
 
 /* ─── DOF Post-processing (Feature 7) ─── */
+
+/* Resolved once when the module loads, which only happens on the client
+   (DroneMesh is imported with ssr: false). Deciding this up front rather than
+   in an effect matters: starting enabled and switching off afterwards built
+   and then tore down the depth-of-field pass on exactly the low-end devices
+   it is meant to spare. */
+const IS_LOW_END_DEVICE =
+  typeof window !== "undefined" &&
+  (window.innerWidth < 768 ||
+    (typeof navigator !== "undefined" &&
+      navigator.hardwareConcurrency > 0 &&
+      navigator.hardwareConcurrency < 4));
+
 function FocalBlurEffect() {
-  const [enabled, setEnabled] = useState(true);
-
-  useEffect(() => {
-    // Disable on low-end devices
-    const isLowEnd =
-      window.innerWidth < 768 ||
-      (navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4);
-    if (isLowEnd) setEnabled(false);
-  }, []);
-
-  if (!enabled) return null;
+  if (IS_LOW_END_DEVICE) return null;
 
   return (
     <EffectComposer multisampling={0}>

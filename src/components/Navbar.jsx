@@ -5,7 +5,7 @@ import data from "@/data/data";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const SECTIONS = ["About", "Experience", "Projects", "Skills"];
 
@@ -14,34 +14,34 @@ export default function Navbar() {
   const pathname = usePathname();
 
   /* ─── Feature 2: Gentle Nudge ─── */
-  const [showNudge, setShowNudge] = useState(false);
-  const timerRef = useRef(null);
+  const [nudgeArmed, setNudgeArmed] = useState(false);
 
-  const restartTimer = useCallback(() => {
-    setShowNudge(false);
-    if (timerRef.current) clearTimeout(timerRef.current);
-
-    // Only auto-trigger nudge if we are in systems mode
-    if (theme === "systems") {
-      timerRef.current = setTimeout(() => {
-        setShowNudge(true);
-      }, 5000);
-    }
-  }, [theme]);
+  // Derived rather than reset on mode change, so leaving Systems cannot strand
+  // the nudge in the visible state.
+  const showNudge = nudgeArmed && theme === "systems";
 
   useEffect(() => {
-    restartTimer();
+    // Only auto-trigger the nudge in systems mode.
+    if (theme !== "systems") return;
+
+    let timer;
+    // Declared as a callback rather than run inline, so the effect body itself
+    // never calls setState.
+    const restartTimer = () => {
+      clearTimeout(timer);
+      setNudgeArmed(false);
+      timer = setTimeout(() => setNudgeArmed(true), 5000);
+    };
 
     const events = ["scroll", "click", "touchstart", "mousemove", "keydown"];
-    const handleInteraction = () => restartTimer();
-
-    events.forEach((evt) => window.addEventListener(evt, handleInteraction, { passive: true }));
+    events.forEach((evt) => window.addEventListener(evt, restartTimer, { passive: true }));
+    timer = setTimeout(() => setNudgeArmed(true), 5000);
 
     return () => {
-      if (timerRef.current) clearTimeout(timerRef.current);
-      events.forEach((evt) => window.removeEventListener(evt, handleInteraction));
+      clearTimeout(timer);
+      events.forEach((evt) => window.removeEventListener(evt, restartTimer));
     };
-  }, [restartTimer]);
+  }, [theme]);
 
   /* ─── Mobile menu ─── */
   const [menuOpen, setMenuOpen] = useState(false);
@@ -232,7 +232,7 @@ export default function Navbar() {
             />
             <Link
               href={MODE_PATHS.systems}
-              onClick={() => setShowNudge(false)}
+              onClick={() => setNudgeArmed(false)}
               aria-current={theme === "systems" ? "page" : undefined}
               className={`relative z-10 flex-1 min-w-0 flex items-center justify-center h-full rounded-full text-xs font-semibold tracking-wide transition-colors duration-300 ${
                 theme === "systems" ? "text-slate-900" : "text-slate-400"
@@ -242,7 +242,7 @@ export default function Navbar() {
             </Link>
             <Link
               href={MODE_PATHS.narrative}
-              onClick={() => setShowNudge(false)}
+              onClick={() => setNudgeArmed(false)}
               aria-current={theme === "narrative" ? "page" : undefined}
               className={`relative z-10 flex-1 min-w-0 flex items-center justify-center h-full rounded-full text-xs font-semibold tracking-wide transition-all duration-300 ${
                 theme === "narrative" ? "text-slate-900" : "text-slate-400"
