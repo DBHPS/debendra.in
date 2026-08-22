@@ -61,7 +61,11 @@ function ProjectCard({ project, index, theme }) {
 
       {project.media && (
         <div className="mb-4">
-          <MediaCard src={project.media} type={project.mediaType || "video"} />
+          <MediaCard
+            src={project.media}
+            type={project.mediaType || "video"}
+            alt={`${project.name} demo video`}
+          />
         </div>
       )}
 
@@ -102,7 +106,7 @@ export default function BentoGrid() {
           Projects
         </SectionHeading>
         <p className={`text-lg mb-12 max-w-2xl ${theme === "systems" ? "text-slate-600" : "text-[#8B7E74]"}`}>
-          From predictive analytics to autonomous rovers — building systems that drive measurable outcomes.
+          From predictive analytics to autonomous rovers: building systems that drive measurable outcomes.
         </p>
 
         <div className="grid md:grid-cols-2 gap-6">

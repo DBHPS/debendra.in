@@ -105,7 +105,7 @@ export default function ExperienceSection({ headingColor, subHeadingColor }) {
       <div className="max-w-7xl mx-auto px-6">
         {headingColor ? (
           <motion.h2
-            className={`text-4xl md:text-5xl font-bold tracking-tight mb-4 ${theme !== "systems" && "text-[#2C2C2C]"}`}
+            className={`text-4xl md:text-5xl font-bold tracking-tight mb-4 ${theme !== "systems" ? "text-[#2C2C2C]" : ""}`}
             style={theme === "systems" ? { color: headingColor } : {}}
           >
             Experience
@@ -118,14 +118,14 @@ export default function ExperienceSection({ headingColor, subHeadingColor }) {
         
         {subHeadingColor ? (
           <motion.p
-            className={`text-lg mb-12 max-w-2xl ${theme !== "systems" && "text-[#8B7E74]"}`}
+            className={`text-lg mb-12 max-w-2xl ${theme !== "systems" ? "text-[#8B7E74]" : ""}`}
             style={theme === "systems" ? { color: subHeadingColor } : {}}
           >
-            From HPC pipelines at IIT Delhi to edge AI deployment — engineering impact across scales.
+            From HPC pipelines at IIT Delhi to edge AI deployment: engineering impact across scales.
           </motion.p>
         ) : (
           <p className={`text-lg mb-12 max-w-2xl ${theme === "systems" ? "text-slate-700" : "text-[#8B7E74]"}`}>
-            From HPC pipelines at IIT Delhi to edge AI deployment — engineering impact across scales.
+            From HPC pipelines at IIT Delhi to edge AI deployment: engineering impact across scales.
           </p>
         )}
 

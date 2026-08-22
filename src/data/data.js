@@ -1,14 +1,17 @@
 const data = {
   personal: {
     name: "Debendra Prasad Sahoo",
-    title: "MBA (Data Science & AI) — IIT Mandi",
+    title: "MBA (Data Science & AI), IIT Mandi",
     tagline: "Physics → Robotics → MBA | Building Systems That Scale",
-    narrativeTagline: "From Physics to Robotics to Business — A Systems Thinker's Journey",
+    narrativeTagline: "From Physics to Robotics to Business: A Systems Thinker's Journey",
     email: "mb25049@students.iitmandi.ac.in",
     linkedin: "https://www.linkedin.com/in/truedebendra",
     github: "https://github.com/DBHPS/arm_isro",
     resumeLink: "/assets/FULL_DEBENDRA_CV_MB25049.pdf",
-    resumeDriveLink: process.env.NEXT_PUBLIC_RESUME_LINK || "https://drive.google.com/file/d/YOUR-DUMMY-LINK-HERE/view",
+    // Falls back to the PDF bundled in /public so the Resume button is never a
+    // dead link when the README config cannot be read at build time.
+    resumeDriveLink:
+      process.env.NEXT_PUBLIC_RESUME_LINK || "/assets/FULL_DEBENDRA_CV_MB25049.pdf",
     profileImage: "/assets/debendra_profile.jpg",
     instituteLogo: "/assets/iitmandi_logo.jpg",
     domain: "debendra.in",
@@ -79,7 +82,7 @@ const data = {
     {
       id: "deimos",
       role: "Management & Corporate Relations Lead",
-      organization: "Team Deimos (Mars Rover) — IIT Mandi",
+      organization: "Team Deimos (Mars Rover), IIT Mandi",
       period: "2025 – Present",
       location: "Mandi, Himachal Pradesh",
       subtitle: "Technical Program Management & Strategic Partnerships",
@@ -93,7 +96,7 @@ const data = {
     },
     {
       id: "aerospace-club",
-      role: "Technical Lead — Aerospace Club, OUTR",
+      role: "Technical Lead, Aerospace Club, OUTR",
       organization: "OUTR Aerospace Club",
       period: "2024 – 2025",
       location: "Bhubaneswar, Odisha",
@@ -107,7 +110,7 @@ const data = {
     },
     {
       id: "robotics-lead",
-      role: "Project Lead — Robotics & Autonomous Systems Initiative",
+      role: "Project Lead, Robotics & Autonomous Systems Initiative",
       organization: "OUTR Robotics Initiative",
       period: "2022 – 2024",
       location: "Bhubaneswar, Odisha",
@@ -205,7 +208,7 @@ const data = {
   workshops: [
     {
       id: "skill-plus",
-      role: "Mentor — Skill++ 2024",
+      role: "Mentor, Skill++ 2024",
       organization: "Zairza Technical Club, OUTR",
       period: "2024",
       highlights: [
@@ -216,7 +219,7 @@ const data = {
   ],
 
   awards: [
-    "Best Delegate at NITR IMUN 2023 (Represented EU at G20 Summit) — 1st prize.",
+    "Best Delegate at NITR IMUN 2023 (Represented EU at G20 Summit): 1st prize.",
     "Top ranks in robotics challenges (IRoC-U 47/1400 teams, Round 2 Stage 6 e-Yantra).",
     "6-year member of SCAAA: promoted astronomy awareness and managed telescopes for public outreach.",
   ],
@@ -241,20 +244,20 @@ const data = {
     ],
   },
 
-  // For the narrative timeline — chronological order
+  // For the narrative timeline, in chronological order
   timeline: [
-    { year: "2019", label: "SCAAA Astronomy — 6-year journey in astronomy outreach begins" },
-    { year: "2022", label: "B.Sc. Physics @ OUTR — Foundations in classical & quantum mechanics" },
-    { year: "2023", label: "Best Delegate @ NITR IMUN — EU representative at G20 Summit" },
-    { year: "2023", label: "e-Yantra IIT Bombay — ROS2 hologlyph bots, pre-final stage" },
-    { year: "2023", label: "Flipkart Grid 5.0 — ROS + YOLO vision stack" },
-    { year: "2024", label: "AI/ROS Intern @ SakRobotix — Edge AI, wake-word detection" },
-    { year: "2024", label: "ISRO IRoC-U — Top 50/1400, autonomous rover with MoveIt2" },
-    { year: "2024", label: "Robotics Lead @ OUTR — Drones, ROS2, securing ₹3L funding" },
-    { year: "2024", label: "AI Intern @ IIT Delhi — Climate modelling, HPC pipelines, 18% boost" },
-    { year: "2024", label: "Technical Lead, Aerospace Club — 200%+ membership growth" },
-    { year: "2025", label: "MBA (DS & AI) @ IIT Mandi — Bridging engineering & business strategy" },
-    { year: "2025", label: "Team Deimos, IIT Mandi — Corporate Relations Lead, Mars Rover" },
+    { year: "2019", label: "SCAAA Astronomy: 6-year journey in astronomy outreach begins" },
+    { year: "2022", label: "B.Sc. Physics @ OUTR: Foundations in classical & quantum mechanics" },
+    { year: "2023", label: "Best Delegate @ NITR IMUN: EU representative at G20 Summit" },
+    { year: "2023", label: "e-Yantra IIT Bombay: ROS2 hologlyph bots, pre-final stage" },
+    { year: "2023", label: "Flipkart Grid 5.0: ROS + YOLO vision stack" },
+    { year: "2024", label: "AI/ROS Intern @ SakRobotix: Edge AI, wake-word detection" },
+    { year: "2024", label: "ISRO IRoC-U: Top 50/1400, autonomous rover with MoveIt2" },
+    { year: "2024", label: "Robotics Lead @ OUTR: Drones, ROS2, securing ₹3L funding" },
+    { year: "2024", label: "AI Intern @ IIT Delhi: Climate modelling, HPC pipelines, 18% boost" },
+    { year: "2024", label: "Technical Lead, Aerospace Club: 200%+ membership growth" },
+    { year: "2025", label: "MBA (DS & AI) @ IIT Mandi: Bridging engineering & business strategy" },
+    { year: "2025", label: "Team Deimos, IIT Mandi: Corporate Relations Lead, Mars Rover" },
   ],
 
   media: {

@@ -3,38 +3,43 @@ import { useRef, useMemo } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
-function NetworkNodes() {
-  const groupRef = useRef();
-  const nodesCount = 40;
-  const connectDistance = 2.8;
+const NODES_COUNT = 40;
+const CONNECT_DISTANCE = 2.8;
 
-  const { positions, linePositions } = useMemo(() => {
-    const pos = [];
-    for (let i = 0; i < nodesCount; i++) {
-      pos.push([
-        (Math.random() - 0.5) * 10,
-        (Math.random() - 0.5) * 8,
-        (Math.random() - 0.5) * 6,
-      ]);
-    }
+/* The node cloud is built once at module load rather than during render.
+   Calling Math.random() while rendering is impure: React may re-run the render
+   and silently reshuffle the whole mesh. */
+const NETWORK = (() => {
+  const pos = [];
+  for (let i = 0; i < NODES_COUNT; i++) {
+    pos.push([
+      (Math.random() - 0.5) * 10,
+      (Math.random() - 0.5) * 8,
+      (Math.random() - 0.5) * 6,
+    ]);
+  }
 
-    const lines = [];
-    for (let i = 0; i < nodesCount; i++) {
-      for (let j = i + 1; j < nodesCount; j++) {
-        const dist = Math.sqrt(
-          (pos[i][0] - pos[j][0]) ** 2 +
-            (pos[i][1] - pos[j][1]) ** 2 +
-            (pos[i][2] - pos[j][2]) ** 2
-        );
-        if (dist < connectDistance) {
-          lines.push(pos[i][0], pos[i][1], pos[i][2]);
-          lines.push(pos[j][0], pos[j][1], pos[j][2]);
-        }
+  const lines = [];
+  for (let i = 0; i < NODES_COUNT; i++) {
+    for (let j = i + 1; j < NODES_COUNT; j++) {
+      const dist = Math.sqrt(
+        (pos[i][0] - pos[j][0]) ** 2 +
+          (pos[i][1] - pos[j][1]) ** 2 +
+          (pos[i][2] - pos[j][2]) ** 2
+      );
+      if (dist < CONNECT_DISTANCE) {
+        lines.push(pos[i][0], pos[i][1], pos[i][2]);
+        lines.push(pos[j][0], pos[j][1], pos[j][2]);
       }
     }
+  }
 
-    return { positions: pos, linePositions: new Float32Array(lines) };
-  }, []);
+  return { positions: pos, linePositions: new Float32Array(lines) };
+})();
+
+function NetworkNodes() {
+  const groupRef = useRef();
+  const { positions, linePositions } = NETWORK;
 
   useFrame((state) => {
     if (groupRef.current) {

@@ -1,6 +1,6 @@
 "use client";
-import { motion, useInView, useScroll, useTransform } from "framer-motion";
-import { useRef, useEffect } from "react";
+import { motion, useInView } from "framer-motion";
+import { useRef, useEffect, useState } from "react";
 import data from "@/data/data";
 import { useTheme } from "@/context/ThemeContext";
 import Image from "next/image";
@@ -57,8 +57,8 @@ export default function NarrativeTimeline() {
             {data.personal.narrativeTagline}
           </h1>
           <p className="text-lg text-[#A1A1AA] max-w-xl mx-auto leading-relaxed">
-            A chronological journey through physics, robotics, AI research, and strategic leadership
-            — tracing how each chapter builds on the last.
+            A chronological journey through physics, robotics, AI research, and strategic
+            leadership, tracing how each chapter builds on the last.
           </p>
         </motion.div>
 
@@ -193,38 +193,42 @@ export default function NarrativeTimeline() {
   );
 }
 
-/* ─── Feature 1: Timeline items with scroll-based horizontal slide-in ─── */
+/* ─── Feature 1: Timeline items reveal once as they scroll into view ─── */
 function TimelineItem({ item, index, isLeft }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-40px" });
+  const [isDesktop, setIsDesktop] = useState(false);
 
-  // Scroll-based x-axis slide: from left for even, from right for odd
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "center center"],
-  });
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px)");
+    const apply = () => setIsDesktop(mq.matches);
+    apply();
+    mq.addEventListener("change", apply);
+    return () => mq.removeEventListener("change", apply);
+  }, []);
 
-  const xOffset = useTransform(
-    scrollYProgress,
-    [0, 1],
-    [isLeft ? -80 : 80, 0]
-  );
-
-  const itemOpacity = useTransform(scrollYProgress, [0, 0.5], [0, 1]);
+  // Desktop alternates left/right around the rail, so entries slide in
+  // horizontally. Mobile stacks everything on one side of the rail, where a
+  // horizontal slide would only drag text off the edge of the screen.
+  const hidden = isDesktop
+    ? { opacity: 0, x: isLeft ? -60 : 60, y: 0 }
+    : { opacity: 0, x: 0, y: 20 };
 
   return (
-    <motion.div
+    <div
       ref={ref}
-      style={{ x: xOffset, opacity: itemOpacity }}
-      className={`relative flex items-center mb-10 ${
+      className={`relative flex items-center mb-10 flex-row ${
         isLeft ? "md:flex-row" : "md:flex-row-reverse"
-      } flex-row`}
+      }`}
     >
-      {/* Dot */}
+      {/* Dot: pinned to the rail, never animated so it cannot drift off it */}
       <div className="absolute left-6 md:left-1/2 w-3 h-3 rounded-full bg-[#34D399] border-2 border-[#18181A] -translate-x-1/2 z-10 shadow-sm" />
 
       {/* Content */}
-      <div
+      <motion.div
+        initial={hidden}
+        animate={isInView ? { opacity: 1, x: 0, y: 0 } : hidden}
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         className={`ml-14 md:ml-0 md:w-5/12 ${
           isLeft ? "md:pr-12 md:text-right" : "md:pl-12 md:text-left"
         }`}
@@ -235,11 +239,11 @@ function TimelineItem({ item, index, isLeft }) {
         <p className="text-sm text-[#F1F1F1] font-medium mt-1 leading-relaxed">
           {item.label}
         </p>
-      </div>
+      </motion.div>
 
       {/* Spacer for the other side */}
       <div className="hidden md:block md:w-5/12" />
-    </motion.div>
+    </div>
   );
 }
 

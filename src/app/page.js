@@ -94,7 +94,7 @@ function PageContent() {
     return () => clearTimeout(timer);
   }, [theme]);
 
-  /* ─── Feature 1: Scroll Fades — auto-narrative transition ─── */
+  /* ─── Feature 1: Scroll Fades, auto-narrative transition ─── */
   const { scrollYProgress } = useScroll();
 
   useMotionValueEvent(scrollYProgress, "change", (latest) => {

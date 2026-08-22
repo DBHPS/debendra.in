@@ -66,7 +66,8 @@ export default function MediaCard({ src, type = "video", alt = "", className = "
         return (
           <iframe
             src={autoPlaySrc}
-            title="YouTube video"
+            title={alt || "Project demo video"}
+            loading="lazy"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowFullScreen
             className="w-full aspect-video object-cover border-none"

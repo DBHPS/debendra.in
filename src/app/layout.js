@@ -12,7 +12,7 @@ import fs from 'fs';
 import path from 'path';
 
 export async function generateMetadata() {
-  let siteTitle = `${data.personal.name} — Portfolio`;
+  let siteTitle = `${data.personal.name} | Portfolio`;
 
   try {
     const readmePath = path.join(process.cwd(), 'README.md');
@@ -46,11 +46,23 @@ export async function generateMetadata() {
       url: `https://${data.personal.domain}`,
       siteName: data.personal.name,
       type: "website",
+      images: [
+        {
+          url: data.personal.profileImage,
+          width: 1185,
+          height: 1186,
+          alt: data.personal.name,
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
       title: siteTitle,
       description: data.personal.tagline,
+      images: [data.personal.profileImage],
+    },
+    alternates: {
+      canonical: "/",
     },
     metadataBase: new URL(`https://${data.personal.domain}`),
   };

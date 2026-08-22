@@ -70,7 +70,7 @@ export default function HeroSection() {
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
-          className="grid md:grid-cols-[1fr,auto] gap-12 items-center"
+          className="grid md:grid-cols-[minmax(0,1fr)_auto] gap-12 items-center"
         >
           <div>
             <motion.div variants={itemVariants} className="mb-4">
@@ -94,7 +94,7 @@ export default function HeroSection() {
                   ? { x: springX, y: springY }
                   : {}
               }
-              className={`text-5xl md:text-7xl font-bold tracking-tight leading-[1.1] mb-6 ${
+              className={`text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1] mb-6 ${
                 theme === "systems" ? "text-slate-900" : "text-[#2C2C2C]"
               }`}
             >
@@ -159,10 +159,12 @@ export default function HeroSection() {
 
           <motion.div
             variants={itemVariants}
-            className="hidden md:block"
+            className="hidden md:block shrink-0"
           >
+            {/* The source photo is a circular crop baked onto a white background,
+                so the frame has to be a circle too or the white corners show. */}
             <div
-              className={`w-56 h-56 rounded-3xl overflow-hidden shadow-2xl ring-4 transition-all duration-500 ${
+              className={`w-48 h-48 lg:w-56 lg:h-56 rounded-full overflow-hidden shadow-2xl ring-4 transition-all duration-500 ${
                 theme === "systems"
                   ? "ring-blue-100 shadow-blue-600/10"
                   : "ring-[#E8E4DF] shadow-black/5"
@@ -170,9 +172,10 @@ export default function HeroSection() {
             >
               <Image
                 src={data.personal.profileImage}
-                alt={data.personal.name}
+                alt={`Portrait of ${data.personal.name}`}
                 width={224}
                 height={224}
+                sizes="(min-width: 1024px) 224px, 192px"
                 className="object-cover w-full h-full"
                 priority
               />
