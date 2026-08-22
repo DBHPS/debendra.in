@@ -28,16 +28,27 @@ export default function SystemsView() {
     ["#FAFBFC", "#2A2A30"]
   );
 
+  // The background inverts from near-white to near-black across this section, so
+  // the ink has to invert with it. Both hold their dark value while the backdrop
+  // is still light, then cross over late and land on the same light tones the
+  // sections below use: ending on slate-500/600 left the headings sitting at
+  // 2.99:1 and 1.88:1 against the dark backdrop for the rest of the page.
+  // The crossover is held late and kept narrow on purpose. The backdrop passes
+  // through mid grey around 0.83, which is the one point where dark and light
+  // ink score about the same against it; fading earlier or more slowly leaves
+  // grey ink sitting on a grey backdrop and the heading disappears mid-scroll.
+  const CROSSOVER = [0, 0.78, 0.88, 1];
+
   const headingColor = useTransform(
     expScroll,
-    [0, 1],
-    ["#0F172A", "#64748B"] // slate-900 to slate-500
+    CROSSOVER,
+    ["#0F172A", "#0F172A", "#CBD5E1", "#CBD5E1"] // slate-900 to slate-300
   );
 
   const subHeadingColor = useTransform(
     expScroll,
-    [0, 1],
-    ["#334155", "#475569"] // slate-700 to slate-600
+    CROSSOVER,
+    ["#334155", "#334155", "#94A3B8", "#94A3B8"] // slate-700 to slate-400
   );
 
   useMotionValueEvent(systemsBg, "change", (latest) => {

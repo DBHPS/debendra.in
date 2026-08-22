@@ -102,10 +102,10 @@ export default function BentoGrid() {
   return (
     <section id="projects" className="py-20">
       <div className="max-w-7xl mx-auto px-6">
-        <SectionHeading className={theme === "systems" ? "text-slate-500" : "text-[#2C2C2C]"}>
+        <SectionHeading className={theme === "systems" ? "text-slate-300" : "text-[#2C2C2C]"}>
           Projects
         </SectionHeading>
-        <p className={`text-lg mb-12 max-w-2xl ${theme === "systems" ? "text-slate-600" : "text-[#8B7E74]"}`}>
+        <p className={`text-lg mb-12 max-w-2xl ${theme === "systems" ? "text-slate-400" : "text-[#8B7E74]"}`}>
           From predictive analytics to autonomous rovers: building systems that drive measurable outcomes.
         </p>
 
